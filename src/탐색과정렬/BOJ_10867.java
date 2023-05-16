@@ -3,8 +3,7 @@ package 탐색과정렬;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class BOJ_10867 {
     public static void main(String[] args) throws IOException {
@@ -15,23 +14,19 @@ public class BOJ_10867 {
         int N = Integer.parseInt(br.readLine());
 
         StringTokenizer st;
-        st = new StringTokenizer(br.readLine());
+        st = new StringTokenizer(br.readLine(), " ");
 
-        int[] arr = new int[N];
-
+        Set<Integer> set = new HashSet<>();
         for(int i=0; i<N; i++){
-            arr[i]= Integer.parseInt(st.nextToken());
+            set.add(Integer.parseInt(st.nextToken()));
         }
 
-        Arrays.sort(arr);
+        ArrayList<Integer> arry = new ArrayList<>(set);
+        Collections.sort(arry);
 
-        for(int i=0; i<N; i++){
-            if(i+1 != N && arr[i] == arr[i+1]){
-                continue;
-            }
-            sb.append(arr[i]).append(" ");
+        for(int i=0; i<arry.size(); i++){
+            sb.append(arry.get(i)).append(" ");
         }
-
 
         System.out.println(sb);
     }
