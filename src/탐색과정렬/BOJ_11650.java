@@ -9,7 +9,8 @@ public class BOJ_11650 {
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+//        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringBuilder sb = new StringBuilder();
 
         int N = Integer.parseInt(br.readLine());
 
@@ -35,12 +36,18 @@ public class BOJ_11650 {
         });
 
         for(int i=0; i<arr.length; i++){
-            bw.write(arr[i][0] + " " + arr[i][1] + '\n');
+            sb.append(arr[i][0]).append(" ").append(arr[i][1]).append('\n');
         }
 
-        bw.flush();
-        bw.close();
-        br.close();
+        System.out.println(sb);
+
+//        for(int i=0; i<arr.length; i++){
+//            bw.write(arr[i][0] + " " + arr[i][1] + '\n');
+//        }
+//
+//        bw.flush();
+//        bw.close();
+//        br.close();
 
     }
 }
