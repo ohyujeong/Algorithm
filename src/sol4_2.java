@@ -6,7 +6,7 @@ public class sol4_2 {
 
     public String solution(String str1, String str2){
 
-        String answer = null;
+        String answer = "YES";
 
 
         HashMap<Character, Integer> map = new HashMap<>();
@@ -16,18 +16,14 @@ public class sol4_2 {
         }
 
         for(char x: str2.toCharArray()){
-            map.put(x, map.getOrDefault(x,0)-1);
-        }
-
-        //map 탐색
-        for(char key : map.keySet()){
-            if(map.get(key)!=0){
-                answer = "NO";
-                return answer;
+            if(!map.containsKey(x) || map.get(x) == 0){
+                return "NO";
             }
+
+            //key가 있으면 -1 해줌
+            map.put(x, map.get(x) -1);
         }
 
-        answer = "YES";
         return answer;
     }
 
