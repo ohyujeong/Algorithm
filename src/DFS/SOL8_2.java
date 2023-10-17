@@ -13,9 +13,10 @@ public class SOL8_2 {
             return;
         }
         if(L==N){
-            if(sum>answer){
-                answer = sum;
-            }
+            answer = Math.max(answer, sum);
+//            if(sum>answer){
+//                answer = sum;
+//            }
         }
         else{
             dfs(L+1, sum+arr[L], arr);
