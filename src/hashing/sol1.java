@@ -15,15 +15,21 @@ public class sol1 {
             map.put(x, map.getOrDefault(x,0)+1);
         }
 
-        for(char x: map.keySet()){
-            if(map.get(x) == 1){
-                for(int i=0; i<str.length(); i++){
-                    if(str.charAt(i) == x){
-                        return i+1;
-                    }
-                }
+
+        for(int i=0; i<str.length(); i++){
+            if(map.get(str.charAt(i))==1){
+                return i+1;
             }
         }
+//        for(char x: map.keySet()){
+//            if(map.get(x) == 1){
+//                for(int i=0; i<str.length(); i++){
+//                    if(str.charAt(i) == x){
+//                        return i+1;
+//                    }
+//                }
+//            }
+//        }
 
         return answer;
 
