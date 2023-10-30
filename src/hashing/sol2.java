@@ -19,12 +19,13 @@ public class sol2 {
 
         String alpha = "abcde";
         for(int i=0; i<answer.length; i++){
-            if(map.containsKey(alpha.charAt(i))){
-                answer[i] = max-(map.get(alpha.charAt(i)));
-            }
-            else{
-                answer[i] = max;
-            }
+            answer[i] = max-map.getOrDefault(alpha.charAt(i),0);
+//            if(map.containsKey(alpha.charAt(i))){
+//                answer[i] = max-(map.get(alpha.charAt(i)));
+//            }
+//            else{
+//                answer[i] = max;
+//            }
         }
 
         return answer;
