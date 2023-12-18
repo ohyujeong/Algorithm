@@ -14,6 +14,8 @@ class Time implements Comparable<Time>{
 
     @Override
     public int compareTo(Time o){
+
+        //시간이 같으면 알파벳 순 정렬(e가 앞임. )
         if(this.t == o.t){
             return this.state - o.state;
         }
@@ -34,17 +36,18 @@ public class sol9_3 {
 
         Collections.sort(arr);
 
-        for(int i=0; i<72; i++){
-            for(Time ob : arr){
-                if(ob.t == i && ob.state == 's'){
-                    cnt++;
-                    if(cnt>answer){
-                        answer = cnt;
-                    }
+        for(Time ob : arr){
+
+            //왔으면 1증가
+            if(ob.state == 's'){
+                cnt++;
+                if(cnt>answer){
+                    answer = cnt;
                 }
-                else if(ob.t == i && ob.state == 'e'){
-                    cnt--;
-                }
+            }
+            //갔으면 1감소
+            else if(ob.state == 'e'){
+                cnt--;
             }
         }
 
