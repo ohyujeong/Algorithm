@@ -14,9 +14,6 @@ public class pro5 {
     //생성 노드, 도넛, 막대, 8자
     public static int[] answer = new int[4];
 
-
-    public static ArrayList<Integer> vertexTo = new ArrayList<>();
-
     private int findVertex(int[][] edges){
 
         for (int[] ints : edges) {
@@ -38,23 +35,6 @@ public class pro5 {
 
     public int[] solution(int[][] edges) {
 
-        HashMap<Integer, ArrayList<Integer>> hm = new HashMap<>();
-
-        //그래프
-        for(int i=0; i<edges.length; i++){
-
-            ArrayList<Integer> graph = new ArrayList<>();
-            int key = edges[i][0];
-            int value = edges[i][1];
-
-            if(hm.containsKey(key)){
-                hm.get(key).add(value);
-            }
-            else{
-                graph.add(value);
-                hm.put(key, graph);
-            }
-        }
 
         int center = findVertex(edges);
         int total = outLine.get(center);
@@ -65,7 +45,6 @@ public class pro5 {
             }
         }
 
-        hm.remove(center);
         outLine.remove(center);
 
         for(int x : inLine.keySet()){
@@ -80,11 +59,6 @@ public class pro5 {
         }
 
         answer[1] = total-(answer[2]+answer[3]);
-
-        for(int i=0; i<4; i++){
-            System.out.println(answer[i]);
-        }
-
         return answer;
     }
 
