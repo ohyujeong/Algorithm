@@ -29,7 +29,12 @@ public class SOL8_1 {
         //환승 횟수 세기
         int cnt = 0;
 
-        ArrayList<Integer> result = new ArrayList<>();
+
+        int[] result = new int[n];
+        for(int i=0; i<n; i++){
+            result[i] = Integer.MAX_VALUE;
+        }
+
         while(!q.isEmpty()){
             int len = q.size();
             for(int j=0; j<len; j++){
@@ -44,9 +49,7 @@ public class SOL8_1 {
                     int arrival = graph.get(tmp[0]).get(i)[0];
                     fee += graph.get(start).get(i)[1];
                     q.offer(new int[]{arrival,fee});
-                    if(arrival==e){
-                        result.add(fee);
-                    }
+                    result[arrival] = Math.min(result[arrival], fee);
                 }
             }
             if(cnt==k){
@@ -55,15 +58,12 @@ public class SOL8_1 {
             cnt++;
         }
 
-        int answer = Integer.MAX_VALUE;
-        if(result.size()==0){
+
+        if(result[e] == Integer.MAX_VALUE){
             return -1;
         }
 
-        for(int i=0; i<result.size(); i++){
-            answer = Math.min(answer, result.get(i));
-        }
-
+        int answer = result[e];
         return answer;
     }
 
