@@ -10,15 +10,15 @@ public class SOL8_1 {
 
         HashMap<Integer, ArrayList<int[]>> graph = new HashMap<>();
 
-        for(int i=0; i<n; i++){
-            ArrayList<int[]> list = new ArrayList<>();
-            graph.put(i, list);
-        }
+//        for(int i=0; i<n; i++){
+//            ArrayList<int[]> list = new ArrayList<>();
+//            graph.put(i, list);
+//        }
 
         //출발지가 key, 목적지와 가중치가 value로 저장된 그래프
         for(int[] arr : flights){
-//            ArrayList<int[]> list = new ArrayList<>();
-//            graph.putIfAbsent(arr[0], list);
+            ArrayList<int[]> list = new ArrayList<>();
+            graph.putIfAbsent(arr[0], list);
             int[] info = new int[]{arr[1], arr[2]};
             graph.get(arr[0]).add(info);
         }
@@ -35,6 +35,9 @@ public class SOL8_1 {
             for(int j=0; j<len; j++){
                 int[] tmp = q.poll();
                 int start = tmp[0];
+                if(!graph.containsKey(start)){
+                    continue;
+                }
                 int startLen = graph.get(start).size();
                 for(int i=0; i<startLen; i++){
                     int fee = tmp[1];
