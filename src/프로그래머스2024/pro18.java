@@ -23,17 +23,27 @@ public class pro18 {
 
         for(int i=0; i<words.length; i++){
             int cnt = 0;
-            for(int j=0; j<wordLen; j++){
-                if(begin.charAt(j) != words[i].charAt(j)){
-                    cnt++;
-                }
-            }
-            if(cnt==1 && !visited[i]){
+//            for(int j=0; j<wordLen; j++){
+//                if(begin.charAt(j) != words[i].charAt(j)){
+//                    cnt++;
+//                }
+//            }
+            if(check(begin, words[i]) && !visited[i]){
                 visited[i] = true;
                 dfs(words[i], target, depth+1, words);
                 visited[i] = false;
             }
         }
+    }
+
+    public boolean check(String now, String next){
+        int cnt = 0;
+        for(int j=0; j<wordLen; j++){
+            if(now.charAt(j)!=next.charAt(j)){
+                cnt++;
+            }
+        }
+        return cnt == 1;
     }
 
     public int solution(String begin, String target, String[] words) {
