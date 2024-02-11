@@ -1,11 +1,14 @@
 package greedy;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 class Student{
+    int num;
     String team;
     int attack;
-    public Student(String team, int attack){
+    public Student(int num, String team, int attack){
+        this.num = num;
         this.team = team;
         this.attack = attack;
     }
@@ -14,26 +17,37 @@ class Student{
 //전투 게임
 public class sol5_5 {
     public int[] solution(String[] students){
+
         int n = students.length;
         int[] answer = new int[n];
 
-        HashMap<Integer, Student> hm = new HashMap<>();
+        ArrayList<Student> list = new ArrayList<>();
 
         for(int i=0; i<n; i++){
             String team = students[i].split(" ")[0];
             int attack = Integer.parseInt(students[i].split(" ")[1]);
-            hm.put(i, new Student(team, attack));
+            Student s = new Student(i,team,attack);
+            list.add(s);
         }
 
-        for(int i=0; i<n; i++){
-            String team = students[i].split(" ")[0];
-            int attack = Integer.parseInt(students[i].split(" ")[1]);
-            for(int x : hm.keySet()){
-                if(!hm.get(x).team.equals(team) && hm.get(x).attack<attack){
-                    answer[i] += hm.get(x).attack;
-                }
+        list.sort((o1, o2) -> o1.attack-o2.attack);
+
+        //nlogn
+        int total = 0;
+        int j=0;
+        HashMap<String, Integer> hm = new HashMap<>();
+        for(int i=1; i<n; i++){
+            int sNum = list.get(i).num;
+            String sTeam = list.get(i).team;
+            for(; j<i; j++){
+                String team = list.get(j).team;
+                int attack = list.get(j).attack;
+                hm.put(team, hm.getOrDefault(team, 0)+attack);
+                total+=attack;
             }
+            answer[sNum] = total-hm.getOrDefault(sTeam, 0);
         }
+
 
         return answer;
     }
