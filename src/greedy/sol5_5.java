@@ -39,11 +39,15 @@ public class sol5_5 {
         for(int i=1; i<n; i++){
             int sNum = list.get(i).num;
             String sTeam = list.get(i).team;
-            for(; j<i; j++){
+            int sAttack = list.get(i).attack;
+            for(; j<n; j++){
                 String team = list.get(j).team;
                 int attack = list.get(j).attack;
-                hm.put(team, hm.getOrDefault(team, 0)+attack);
-                total+=attack;
+                if(attack< sAttack){
+                    hm.put(team, hm.getOrDefault(team, 0)+attack);
+                    total+=attack;
+                }
+                else break;
             }
             answer[sNum] = total-hm.getOrDefault(sTeam, 0);
         }
