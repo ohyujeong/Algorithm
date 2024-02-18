@@ -8,8 +8,7 @@ public class pro32 {
 
     public int solution(int x, int y, int n) {
 
-
-        HashMap<Integer, Integer> hm = new HashMap<>();
+        boolean[] visited = new boolean[1000001];
 
         Queue<Integer> q = new LinkedList<>();
         q.offer(x);
@@ -34,9 +33,9 @@ public class pro32 {
                     if(nx>y){
                         break;
                     }
-                    if(!hm.containsKey(nx)){
+                    if(!visited[nx]){
                         q.offer(nx);
-                        hm.put(nx, 1);
+                        visited[nx] = true;
                     }
                 }
             }
