@@ -11,47 +11,64 @@ public class sol3_1 {
             hs.add(i);
         }
 
-        List<Integer> hsList = new ArrayList<>(hs);
-
-        if(hsList.size()==1){
+        if(hs.size()==1){
             return 1;
         }
 
-        Collections.sort(hsList);
+        int answer = 0;
 
-        Stack <Integer> s = new Stack<>();
-        ArrayList<Integer> result = new ArrayList<>();
-
-        int i=0;
-        for(; i<hsList.size()-1; ){
-            s.push(hsList.get(i));
-            while(!s.isEmpty()){
-                int cur = s.peek();
-                int next = i+1;
-                if(next==hsList.size()-1){
-                    if(cur+1==hsList.get(next)){
-                        result.add(s.size()+1);
-                    }
-                    else{
-                        result.add(s.size());
-                    }
-                    s.clear();
+        //set에서 탐색하는건 O(1)
+        for(int i : hs){
+            int cnt = 1;
+            //i보다 -1 작은 숫자 있으면 i가 시작지점이 아님
+            if(hs.contains(i-1)){
+                continue;
+            }
+            //시작지점인 숫자에서부터 연속수열 카운팅
+            else{
+                while(hs.contains(i+1)){
+                    cnt++;
+                    i++;
                 }
-                if(next<hsList.size()-1 && cur+1==hsList.get(next)){
-                    s.push(hsList.get(i+1));
-                }
-                else{
-                    result.add(s.size());
-                    s.clear();
-                }
-                i++;
+                answer = Math.max(answer, cnt);
             }
         }
 
-        int answer = 0;
-        for(int a : result){
-            answer = Math.max(answer, a);
-        }
+//        List<Integer> hsList = new ArrayList<>(hs);
+//
+//        if(hsList.size()==1){
+//            return 1;
+//        }
+
+//        Collections.sort(hsList);
+
+//        Stack <Integer> s = new Stack<>();
+//        int i=0;
+//        for(; i<hsList.size()-1; ){
+//            s.push(hsList.get(i));
+//            while(!s.isEmpty()){
+//                int cur = s.peek();
+//                int next = i+1;
+//                if(next==hsList.size()-1){
+//                    if(cur+1==hsList.get(next)){
+//                        result.add(s.size()+1);
+//                    }
+//                    else{
+//                        result.add(s.size());
+//                    }
+//                    s.clear();
+//                }
+//                if(next<hsList.size()-1 && cur+1==hsList.get(next)){
+//                    s.push(hsList.get(i+1));
+//                }
+//                else{
+//                    result.add(s.size());
+//                    s.clear();
+//                }
+//                i++;
+//            }
+//        }
+
 
         return answer;
     }
