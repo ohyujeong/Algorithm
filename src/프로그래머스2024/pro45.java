@@ -10,30 +10,32 @@ public class pro45 {
         ArrayList<String> result = new ArrayList<>();
         HashMap<String, String> hm = new HashMap<>();
 
+        hm.put("Enter","님이 들어왔습니다.");
+        hm.put("Leave","님이 나갔습니다.");
+
         for(String s : record){
             String action = s.split(" ")[0];
             String userId = s.split(" ")[1];
-            if(action.equals("Enter")){
-                result.add(userId + "님이 들어왔습니다.");
-                String name = s.split(" ")[2];
-                hm.put(userId, name);
-            }
-            if(action.equals("Leave")){
-                result.add(userId + "님이 나갔습니다.");
-            }
-            if(action.equals("Change")){
+            if(action.equals("Enter") || action.equals("Change")){
                 String name = s.split(" ")[2];
                 hm.put(userId, name);
             }
         }
 
+        for(String s : record){
+            String action = s.split(" ")[0];
+            String userId = s.split(" ")[1];
+            String name = hm.get(userId);
+            if(action.equals("Enter") || action.equals("Leave")){
+                result.add(name+hm.get(action));
+            }
+        }
+
+
         String[] answer = new String[result.size()];
 
         for(int i=0; i<answer.length; i++){
-            String s = result.get(i);
-            String userId = s.split("님")[0];
-            s = s.replace(userId, hm.get(userId));
-            answer[i] = s;
+            answer[i] = result.get(i);
         }
 
         return answer;
