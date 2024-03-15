@@ -1,4 +1,4 @@
-package 인프런;
+package 시뮬레이션_구현;
 
 import java.util.*;
 

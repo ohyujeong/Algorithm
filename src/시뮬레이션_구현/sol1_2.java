@@ -1,4 +1,4 @@
-package 인프런;
+package 시뮬레이션_구현;
 
 import java.util.*;
 
@@ -71,12 +71,12 @@ public class sol1_2 {
 
     public static void main(String[] args){
         sol1_2  T = new sol1_2 ();
-        int[][] arr1 = {{0, 0, 0, 0, 0},
-                {0, 1, 1, 0, 0},
-                {0, 0, 0, 0, 0},
-                {1, 0, 1, 0, 1},
-                {0, 0, 0, 0, 0}};
-        System.out.println(Arrays.toString(T.solution(arr1, 10)));
+//        int[][] arr1 = {{0, 0, 0, 0, 0},
+//                {0, 1, 1, 0, 0},
+//                {0, 0, 0, 0, 0},
+//                {1, 0, 1, 0, 1},
+//                {0, 0, 0, 0, 0}};
+//        System.out.println(Arrays.toString(T.solution(arr1, 10)));
         int[][] arr2 = {{0, 0, 0, 1, 0, 1},
                 {0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 0, 0, 1},

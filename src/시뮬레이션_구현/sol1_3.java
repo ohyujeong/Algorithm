@@ -1,6 +1,4 @@
-package 인프런;
-
-import java.util.*;
+package 시뮬레이션_구현;
 
 //잃어버린 강아지
 public class sol1_3 {
