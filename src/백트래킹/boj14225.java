@@ -10,26 +10,17 @@ public class boj14225 {
     static int[] arr;
 
     static boolean[] answer;
-    static boolean[] visited;
 
-    private static void dfs(int target, int sum, int start){
+    private static void dfs(int depth, int sum){
 
-        answer[sum] = true;
-
-        if(target==sum){
-            answer[target] = true;
+        if(depth==n){
+            answer[sum] = true;
             return;
         }
 
+        dfs(depth+1, sum+arr[depth]);
+        dfs(depth+1, sum);
 
-        for(int i=start; i<n; i++){
-            if(!visited[i]){
-                visited[i] = true;
-                dfs(target, sum+arr[i], i+1);
-                if(answer[target]) break;
-                visited[i] = false;
-            }
-        }
     }
 
     public static void main(String[] args) throws Exception{
@@ -46,20 +37,16 @@ public class boj14225 {
             arr[i] = Integer.parseInt(st.nextToken());
         }
 
-
-        answer = new boolean[2000001];
-
+        answer = new boolean[100000*20+1];
         Arrays.sort(arr);
 
-        int num=1;
-        while(true){
-            visited = new boolean[n];
-            dfs(1,0,0);
-            if(!answer[num]){
-                System.out.println(num);
+        dfs(0,0);
+
+        for(int i=1; i<answer.length; i++){
+            if(!answer[i]){
+                System.out.println(i);
                 break;
             }
-            num++;
         }
     }
 }
