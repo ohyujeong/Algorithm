@@ -31,10 +31,16 @@ public class pro63 {
         int n = queue1.length;
 
         while(true){
+            //queue1이 target값 보다 작으면, queue2의 원소를 추출해서 더해줌
+            //추출된 queue2의 원소값이 queue1의 가장 오른쪽 값이 됨
+            //다음에 더해줄 queue2의 원소값을 찾기 위해 r++해줘야 함
             if(q1<target && r<n){
                 q1+=queue2[r++];
                 answer++;
             }
+            //target값 보다 크면, queue1의 원소를 앞에서부터(l) 추출해서 빼줌
+            //queue1에서 뺄 수 있는 값은 l포인터와 p2포인터(queue2에서 빼와서 더해준 값들)
+            //l,p2포인터가 모두 n과 같거나 크면, 이미 모든 원소에 대해 탐색한 후임에도 target값 도달 못한거라서 -1
             else if(q1>target && (l<n || p2<n)){
                 int cur = 0;
                 if(l>=n){
