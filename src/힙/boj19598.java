@@ -3,6 +3,7 @@ package 힙;
 import java.util.*;
 import java.io.*;
 
+
 //최소 회의실 개수
 public class boj19598 {
 
@@ -10,45 +11,48 @@ public class boj19598 {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
 
-        PriorityQueue<Time> pQ = new PriorityQueue<>();
+        PriorityQueue<int[]> pQ = new PriorityQueue<>(new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if(o1[0]==o2[0]){
+                    return o1[1]-o2[1];
+                }
+                return o1[0]-o2[0];
+            }
+        });
 
         StringTokenizer st;
         for(int i=0; i<N; i++){
             st = new StringTokenizer(br.readLine());
-            pQ.add(new Time(Integer.parseInt(st.nextToken()), true)); // 시작시간
-            pQ.add(new Time(Integer.parseInt(st.nextToken()), false)); // 종료시간
+            int start = Integer.parseInt(st.nextToken());
+            int end = Integer.parseInt(st.nextToken());
+            pQ.offer(new int[]{start,end});
         }
 
 
-        int cnt = 0; //회의실 개수
-        int ans = 0; //최대값
+        //진행되고 있는 회의들
+        PriorityQueue<Integer> room = new PriorityQueue<>();
+
+        //현재 진행중인 회의가 끝나는 시간
+        room.add(pQ.poll()[1]);
 
         while(!pQ.isEmpty()){
-            Time t = pQ.poll();
-            if(t.isStart){
-                cnt++;
-                ans = Math.max(ans, cnt);
+            int prev = room.peek();
+            int next[] = pQ.poll();
+            //다음 회의 시작시간이 이전회의의 끝나는 시간보다 이후면 같은 회의실에서 할 수 있음
+            if(next[0] >= prev){
+                //기존회의는 회의실 나가줌
+                room.poll();
             }
-            else{
-                cnt--;
-            }
+            //시작시간이 끝나는 시간보다 이전이면 기존회의는 회의실 안 나가고
+            //다음 회의는 다른 회의실에서 회의 시작
+            room.add(next[1]);
         }
+
+        int ans = 0;
+        ans = room.size();
 
         System.out.println(ans);
     }
 
-    static class Time implements Comparable<Time>{
-        int time;
-        boolean isStart;
-
-        public Time(int time, boolean isStart) {
-            this.time = time;
-            this.isStart = isStart;
-        }
-
-        @Override
-        public int compareTo(Time o) {
-            return this.time - o.time;
-        }
-    }
 }
