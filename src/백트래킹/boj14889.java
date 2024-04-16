@@ -9,23 +9,27 @@ public class boj14889 {
     public static boolean[] visited;
     public static boolean[] check;
     public static int answer = Integer.MAX_VALUE;
-    public static int N = 0;
+    public static int N;
 
     public static ArrayList<Integer> team1;
     public static ArrayList<Integer> team2;
-    public static int score1 = 0;
-    public static int score2 = 0;
+    public static int score1;
+    public static int score2;
 
-    public static void combi2(int depth, int[] out1, int[] out2, int start){
+    //각 팀에서 2명씩 뽑는 조합
+    static void score(int start, int depth, int[] out1, int[] out2){
 
         if(depth==2){
+
             int i = out1[0];
             int j = out1[1];
-            score1+= (arr[i][j] + arr[j][i]);
 
             int x = out2[0];
             int y = out2[1];
-            score2+= (arr[x][y] + arr[y][x]);
+
+            score1+=(arr[i][j]+arr[j][i]);
+            score2+=(arr[x][y]+arr[y][x]);
+
             return;
         }
 
@@ -34,14 +38,15 @@ public class boj14889 {
                 check[i] = true;
                 out1[depth] = team1.get(i);
                 out2[depth] = team2.get(i);
-                combi2(depth+1, out1, out2, i+1);
-                check[i] =false;
+                score(i+1,depth+1, out1, out2);
+                check[i]= false;
             }
         }
+
     }
 
-    public static void getTeam(){
 
+    static void getTeam(){
 
         team1 = new ArrayList<>();
         team2 = new ArrayList<>();
@@ -57,12 +62,13 @@ public class boj14889 {
 
         score1=0;
         score2=0;
-        combi2(0, new int[2], new int[2], 0);
-        answer = Math.min(answer, Math.abs(score1-score2));
+        score(0,0, new int[2], new int[2]);
+        answer=Math.min(answer, Math.abs(score1-score2));
 
     }
 
-    public static void combi(int depth, int start){
+    //스타트 팀원, 링크 팀원을 뽑는 조함
+    static void teamCombi(int start, int depth){
 
         if(depth==N/2){
             getTeam();
@@ -71,9 +77,9 @@ public class boj14889 {
 
         for(int i=start; i<N; i++){
             if(!visited[i]){
-                visited[i] = true;
-                combi(depth+1, i+1);
-                visited[i] = false;
+                visited[i]=true;
+                teamCombi(i+1, depth+1);
+                visited[i]=false;
             }
         }
     }
@@ -93,7 +99,7 @@ public class boj14889 {
             }
         }
 
-        combi(0,0);
+        teamCombi(0,0);
 
         System.out.println(answer);
     }
