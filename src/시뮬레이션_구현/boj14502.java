@@ -11,8 +11,7 @@ public class boj14502 {
 
     static int n,m;
     static int[][] map;
-    static int ans = 0;
-    static int wall = 3;
+    static int ans=0;
 
     public static void main(String[] args) throws IOException{
 
@@ -31,18 +30,21 @@ public class boj14502 {
                 map[i][j] = Integer.parseInt(st.nextToken());
             }
         }
+
         dfs(0);
 
         System.out.println(ans);
     }
 
-    public static void dfs(int depth){
+    //벽을 3개 세우는 경우 dfs로 완탐
+    static void dfs(int depth){
 
-        //벽이 3개 설치된 경우 bfs로 안전구역 개수 카운팅
-        if(depth==wall){
+        if(depth==3){
+            //바이러스를 bfs로 퍼뜨림
             bfs();
             return;
         }
+
         for(int i=0; i<n; i++){
             for(int j=0; j<m; j++){
                 if(map[i][j]==0){
@@ -55,53 +57,58 @@ public class boj14502 {
 
     }
 
-    public static void bfs(){
-
-        //원래 map은 계속 dfs탐색 돌아야 하니까 copy를 만들어서 바이러스 퍼뜨리며 개수를 세어줌
-        int[][] copyMap = new int[n][m];
-        for(int i=0; i<n; i++){
-            copyMap[i] = map[i].clone();
-        }
+    static void bfs(){
 
         Queue<int[]> q = new LinkedList<>();
 
+        int[][] virus = new int[n][m];
+        boolean[][] visited = new boolean[n][m];
+
         for(int i=0; i<n; i++){
             for(int j=0; j<m; j++){
-                if(copyMap[i][j]==2){
+                virus[i][j] = map[i][j];
+                if(virus[i][j]==2){
+                    visited[i][j] = true;
                     q.offer(new int[]{i,j});
                 }
             }
         }
 
         while(!q.isEmpty()){
-            int[] cur = q.poll();
-            int x = cur[0];
-            int y = cur[1];
-            for(int i=0; i<4; i++){
-                int nx = x+dx[i];
-                int ny = y+dy[i];
 
-                if(nx<0 || nx>=n || ny<0 || ny>=m || copyMap[nx][ny]!=0){
+            int[] cur = q.poll();
+
+            for(int i=0; i<4; i++){
+                int nx = cur[0]+dx[i];
+                int ny = cur[1]+dy[i];
+
+                if(nx<0 || ny<0 || nx>=n || ny>=m){
                     continue;
                 }
 
-                copyMap[nx][ny] = 2;
-                q.offer(new int[]{nx,ny});
+                if(!visited[nx][ny] && virus[nx][ny]==0){
+                    virus[nx][ny]=2;
+                    q.offer(new int[]{nx,ny});
+                }
             }
         }
-        cntSafeZone(copyMap);
+
+        cntSafeZone(virus);
+
     }
 
-    public static void cntSafeZone(int[][] copyMap){
+    static void cntSafeZone(int[][] map){
+
         int cnt = 0;
+
         for(int i=0; i<n; i++){
             for(int j=0; j<m; j++){
-                if(copyMap[i][j]==0){
+                if(map[i][j]==0){
                     cnt++;
                 }
             }
         }
-        ans = Math.max(ans, cnt);
-    }
 
+        ans = Math.max(ans,cnt);
+    }
 }
