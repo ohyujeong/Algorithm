@@ -1,23 +1,19 @@
-package BFS;
+package 시뮬레이션_구현;
 
 import java.util.*;
 import java.io.*;
 
-
 //로봇 청소기
 public class boj14503 {
-
 
     static int n,m;
     static int[][] map;
 
+    //북 동 남 서
+    static int[] dx = {-1,0,1,0};
+    static int[] dy = {0,1,0,-1};
+
     static int cnt=1;
-
-    static int[] dx = {-1, 0, 1, 0};
-    static int[] dy = {0, 1, 0, -1};
-
-//    static int[] dx = {-1,0,1,0};
-//    static int[] dy = {0,-1,0,1};
 
     public static void main(String[] args) throws Exception{
 
@@ -34,7 +30,6 @@ public class boj14503 {
         int c = Integer.parseInt(st.nextToken());
         int d = Integer.parseInt(st.nextToken());
 
-
         map = new int[n][m];
         for(int i=0; i<n; i++){
             st = new StringTokenizer(br.readLine());
@@ -43,24 +38,32 @@ public class boj14503 {
             }
         }
 
-        map[r][c] = 2;
-
+        map[r][c]=2;
         clean(r,c,d);
+
         System.out.println(cnt);
     }
 
-    public static void clean(int x, int y, int dir) {
+    static void clean(int x, int y, int dir){
 
         map[x][y] = -1;
 
         for(int i = 0; i < 4; i++) {
+
+            //반시계 방향 회전
+            //0->3 , 1->0 , 2->1 , 3->2
+            //0에 3더하고 4로 나눈 나머지값 => 3
+            //1에 3더하고 4로 나눈 나머지값 => 0 (...)
             dir = (dir+3)%4;
 
             int nx = x + dx[dir];
             int ny = y + dy[dir];
+
+            //반시계 방향으로 회전한 칸이 청소되지 않았으면
             if(nx >= 0 && ny >= 0 && nx < n && ny < m) {
                 if(map[nx][ny] == 0) {
                     cnt++;
+                    //해당칸으로 전진해서 다시 청소시작
                     clean(nx, ny, dir);
                     return;
                 }
@@ -74,4 +77,5 @@ public class boj14503 {
             clean(bx, by, dir); //후진이니까 바라보는 방향은 유지
         }
     }
+
 }
