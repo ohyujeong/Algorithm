@@ -7,33 +7,23 @@ import java.io.*;
 public class boj1920 {
 
     static int n,m;
-    static int[] arr;
 
     public static void main(String[] args) throws IOException{
          BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
          n = Integer.parseInt(br.readLine());
 
-         arr = new int[n];
-
+        HashMap<Integer, Integer> hm = new HashMap<>();
          StringTokenizer st = new StringTokenizer(br.readLine());
          for(int i=0; i<n; i++){
-             arr[i] = Integer.parseInt(st.nextToken());
+             hm.putIfAbsent(Integer.parseInt(st.nextToken()),1);
          }
 
          m = Integer.parseInt(br.readLine());
 
-         int[] find = new int[m];
-
          st = new StringTokenizer(br.readLine());
          for(int i=0; i<m; i++){
-             find[i] = Integer.parseInt(st.nextToken());
-         }
-
-         Arrays.sort(arr);
-
-         for(int i=0; i<m; i++){
-             boolean flag = binarySearch(0,n,find[i]);
-             if(flag){
+             int find = Integer.parseInt(st.nextToken());
+             if(hm.containsKey(find)){
                  System.out.println(1);
              }
              else{
@@ -41,25 +31,6 @@ public class boj1920 {
              }
          }
 
-
     }
 
-    static boolean binarySearch(int lt, int rt, int target){
-
-        while(lt<rt){
-            int mid = (lt+rt)/2;
-            if(arr[mid]<target){
-                lt=mid+1;
-            }
-            else if(arr[mid]>target){
-                rt=mid;
-            }
-            else if(arr[mid]==target){
-                return true;
-            }
-        }
-
-        return false;
-
-    }
 }
