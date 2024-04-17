@@ -24,16 +24,13 @@ public class boj2003 {
             if(sum>=m){
                 sum-=A[left++];
             }
-            else if(right==n){
-                break;
-            }
-            else if(sum<m){
+            else if(right==n) break;
+            else{
                 sum+=A[right++];
             }
-            if(sum==m){
-                answer++;
-            }
+            if(sum==m) answer++;
         }
+
 
         System.out.println(answer);
     }
