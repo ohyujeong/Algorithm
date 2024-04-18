@@ -13,38 +13,44 @@ public class boj14501 {
 
         int n = Integer.parseInt(br.readLine());
 
-        int[][] arr = new int[2][n+1];
-        int[] dy = new int[n+1];
+        int[][] arr = new int[n+1][2];
+        int[] dp = new int[n+1];
 
         StringTokenizer st;
-        for(int i=1; i<n+1; i++){
+
+        for(int i=1; i<=n; i++) {
             st = new StringTokenizer(br.readLine());
-            arr[0][i] = Integer.parseInt(st.nextToken());
-            arr[1][i] = Integer.parseInt(st.nextToken());
-            int next = i+arr[0][i];
-            if(next-1<=n){
-                dy[i] = arr[1][i];
-            }
+            arr[i][0] = Integer.parseInt(st.nextToken());
+            arr[i][1] = Integer.parseInt(st.nextToken());
+
+            int next = (i+arr[i][0])-1;
+            if(next<=n) dp[i]=arr[i][1];
         }
 
         for(int i=1; i<=n; i++){
-            //i번째 상담을 할 때, i번째 상담 소요시간(arr[0][i]) 끝난 후 가능한 바로 다음 상담
-           int next = i+arr[0][i];
-           //그 다음으로 가능한 상담 번호부터 순회하며 최댓값 찾음
+
+            //i번째 상담했을 때, 다음으로 수행할 수 있는 날짜
+            int next = i+arr[i][0];
+
             for(int j=next; j<=n; j++){
-                //j번째 상담의 소요시간이 퇴사날짜를 넘지 않을 때
-                if((j+arr[0][j])-1<=n){
-                    dy[j] = Math.max(dy[j], dy[i]+arr[1][j]);
+                //j번째 상담 할 때, 퇴사 전에 끝날 수 있을 때
+                if((j+arr[j][0])<=n+1){
+                    //j번째 상담의 최대이익
+                    dp[j] = Math.max(dp[j], dp[i]+arr[j][1]);
                 }
+
             }
+
         }
 
-        int max = 0;
+
+        int max  = 0;
         for(int i=1; i<=n; i++){
-            max = Math.max(max, dy[i]);
+            if(dp[i]>max){
+                max = dp[i];
+            }
         }
 
         System.out.println(max);
-
     }
 }
