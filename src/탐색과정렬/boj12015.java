@@ -2,7 +2,6 @@ package 탐색과정렬;
 
 import java.util.*;
 import java.io.*;
-
 //LIS 2 이진탐색
 public class boj12015 {
 
