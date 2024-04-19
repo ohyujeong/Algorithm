@@ -13,20 +13,28 @@ public class boj2667 {
     static boolean[][] visited;
     static ArrayList<Integer> list = new ArrayList<>();
 
-    static void dfs(int x, int y){
+    static void bfs(int x, int y){
 
-        for(int i=0; i<4; i++){
-            int nx = x+dx[i];
-            int ny = y+dy[i];
-            if(nx<0 || nx>=n || ny<0 || ny>=n || visited[nx][ny]){
-                continue;
-            }
-            if(map[nx][ny]==1){
-                visited[nx][ny] = true;
-                cnt++;
-                dfs(nx,ny);
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[]{x,y});
+
+        while(!q.isEmpty()){
+            int[] cur = q.poll();
+            for(int i=0; i<4; i++){
+                int nx = cur[0]+dx[i];
+                int ny = cur[1]+dy[i];
+                if(nx<0 || nx>=n || ny<0 || ny>=n || visited[nx][ny]){
+                    continue;
+                }
+
+                if(map[nx][ny]==1){
+                    visited[nx][ny] = true;
+                    cnt++;
+                    q.offer(new int[]{nx,ny});
+                }
             }
         }
+
     }
 
     public static void main(String[] args) throws IOException{
@@ -48,7 +56,7 @@ public class boj2667 {
                 if(!visited[i][j] && map[i][j]==1){
                     cnt = 1;
                     visited[i][j] = true;
-                    dfs(i,j);
+                    bfs(i,j);
                     list.add(cnt);
                 }
             }
