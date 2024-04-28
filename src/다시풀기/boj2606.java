@@ -31,27 +31,23 @@ public class boj2606 {
             graph.get(y).add(x);
         }
 
-        answer = 0;
         visited = new boolean[N+1];
+        dfs(1);
+        //시작 컴퓨터 빼줌
+        System.out.println(answer-1);
 
-        Queue<Integer> q = new LinkedList<>();
-        q.offer(1);
-        visited[1] = true;
+    }
 
-        while(!q.isEmpty()){
-            int start = q.poll();
-            for(int i=0; i<graph.get(start).size(); i++){
-                int next = graph.get(start).get(i);
-                if(!visited[next]){
-                    visited[next] = true;
-                    q.offer(next);
-                    answer++;
-                }
+    static void dfs(int idx){
+
+        visited[idx] = true;
+        answer++;
+
+        for(int i=1; i<=N; i++){
+            if(!visited[i] &&graph.get(idx).contains(i)){
+                dfs(i);
             }
         }
-
-        System.out.println(answer);
-
     }
 
 
