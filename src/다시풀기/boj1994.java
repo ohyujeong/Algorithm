@@ -35,8 +35,8 @@ public class boj1994 {
         for (int i = 0; i < N-1; i++) {
             for (int j = i + 1; j < N; j++) {
                 int diff = arr[j] - arr[i];
-                int len = dp[i].getOrDefault(diff, 1) + 1;
-                dp[j].put(diff, Math.max(dp[j].getOrDefault(diff, 1), len));
+                int len = dp[i].getOrDefault(diff, 1) + 1; // 1을 더하는 이유는 arr[i]로 시작하는 새로운 수열에 arr[j]를 추가하기 때문
+                dp[j].put(diff, Math.max(dp[j].getOrDefault(diff, 2), len)); // 최소 길이는 2 (arr[i]와 arr[j])
                 answer = Math.max(answer, len);
             }
         }
