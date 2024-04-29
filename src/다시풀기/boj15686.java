@@ -3,6 +3,11 @@ package 다시풀기;
 import java.io.*;
 import java.util.*;
 
+/*
+1. 치킨집 M개 고를 수 있는 조합을 dfs로 구현
+2. 조합이 완성되면 bfs로 도시의 치킨거리 계산
+3. 반복해서 최솟값 갱신
+ */
 public class boj15686 {
 
     static int N,M;
