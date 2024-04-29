@@ -10,6 +10,7 @@ public class boj2644 {
 
     static ArrayList<Integer>[] graph;
     static boolean[] visited;
+    static int answer = -1;
 
     public static void main(String[] args) throws IOException{
 
@@ -37,37 +38,25 @@ public class boj2644 {
             graph[y].add(x);
         }
 
-        Queue<Integer> q = new LinkedList<>();
+        dfs(p1,0);
 
-        q.offer(p1);
-        visited[p1] = true;
+        System.out.println(answer);
+    }
 
-        int L = 0;
+    static void dfs(int idx, int cnt){
 
-        while(!q.isEmpty()){
-            int len = q.size();
-            for(int i=0; i<len; i++){
-                int cur = q.poll();
-                for(int j=0; j<graph[cur].size(); j++){
-                    int next = graph[cur].get(j);
-                    if(!visited[next]){
-                        visited[next] = true;
-                        q.offer(next);
-                    }
-                }
-            }
-            L++;
-            if(q.contains(p2)){
-                break;
+        visited[idx] = true;
+
+        if(idx==p2){
+            answer=cnt;
+            return;
+        }
+
+        for(int i=0; i<graph[idx].size(); i++){
+            int next = graph[idx].get(i);
+            if(!visited[next]){
+                dfs(next, cnt+1);
             }
         }
-
-        if(visited[p2]){
-            System.out.println(L);
-        }
-        else{
-            System.out.println(-1);
-        }
-
     }
 }
