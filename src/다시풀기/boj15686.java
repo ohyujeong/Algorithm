@@ -3,84 +3,59 @@ package 다시풀기;
 import java.io.*;
 import java.util.*;
 
-/*
-1. 치킨집 M개 고를 수 있는 조합을 dfs로 구현
-2. 조합이 완성되면 bfs로 도시의 치킨거리 계산
-3. 반복해서 최솟값 갱신
- */
+
+//1. M개 선택할 수 있는 치킨집 경우의 수를 조합으로 구함
+//2. M개 선택하면 각 집과 선택된 치킨집 들의 최소거리 구함
+//3. 최소거리 다 더해서 치킨거리 구하고 최소값 계산
 public class boj15686 {
 
     static int N,M;
 
     //0빈 칸, 1 집, 2 치킨집
-   static int[][] map;
    static boolean[] visited;
-   static ArrayList<int[]> chickenList = new ArrayList<>();
 
    static int min = Integer.MAX_VALUE;
-
    static int[] chicken;
+   static ArrayList<int[]> chickenStores = new ArrayList<>();
+   static ArrayList<int[]> home = new ArrayList<>();
 
    static void combi(int depth, int start){
 
        if(depth==M){
-           //치킨집을 M개 조합이 완성되면 도시의 치킨거리 계산
-           cntChicken();
+           cntDistance();
            return;
        }
 
-       for(int i=start; i<chickenList.size(); i++){
+       //시간초과 주의, i=0부터 돌면 불필요하게 중복으로 for문을 순회함 i+1를 start인자로 넘겨줘서 start 인덱스부터 돌도록 함
+       for(int i=start; i<chickenStores.size(); i++){
            if(!visited[i]){
-               visited[i] = true;
-               chicken[depth] = i;
+               visited[i]=true;
+               chicken[depth]=i;
                combi(depth+1, i+1);
-               visited[i] = false;
+               visited[i]=false;
            }
        }
    }
 
-   static void cntChicken(){
+   //치킨 거리 계산
+   static void cntDistance(){
 
        int sum = 0;
-
-       Queue<int[]> q = new LinkedList<>();
-
-       //치킨집과의 거리를 계산해야하는 집들을 q에 삽입
-       for(int i=1; i<=N; i++){
-           for(int j=1; j<=N; j++){
-               if(map[i][j]==1){
-                   q.offer(new int[]{i,j});
-               }
+       for (int[] choiceHome : home) {
+           int diff = Integer.MAX_VALUE;
+           for (int j = 0; j < M; j++) {
+               int idx = chicken[j];
+               int[] choiceChicken = chickenStores.get(idx);
+               int cntDiff = Math.abs(choiceHome[0] - choiceChicken[0]) + Math.abs(choiceHome[1] - choiceChicken[1]);
+               diff = Math.min(diff, cntDiff);
            }
+           sum += diff;
        }
 
-       //모든 집과 치킨집 거리 계산
-       while(!q.isEmpty()){
-
-           int[] cur = q.poll();
-           int r1 = cur[0];
-           int c1 = cur[1];
-
-           int path = Integer.MAX_VALUE;
-
-           //각 치킨집 리스트들과 집들의 거리를 계산하고, 최솟값으로 path 갱신
-           for(int i=0; i<M; i++){
-
-               int r2 = chickenList.get(chicken[i])[0];
-               int c2 = chickenList.get(chicken[i])[1];
-
-               int diff = Math.abs(r1-r2)+Math.abs(c1-c2);
-               path = Math.min(path,diff);
-           }
-
-           //모든 치킨집과의 거리계산이 끝난 후 path 치킨거리 최솟값이 저장되어 있음
-           sum+=path;
-       }
-
-       //도시의 치킨 거리
-       min = Math.min(sum,min);
+       min = Math.min(min, sum);
 
    }
+
 
     public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -89,21 +64,26 @@ public class boj15686 {
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
 
-        map = new int[N+1][N+1];
+        //M개의 치킨집
         chicken = new int[M];
 
         for(int i=1; i<=N; i++){
             st = new StringTokenizer(br.readLine());
             for(int j=1; j<=N; j++){
-                map[i][j] = Integer.parseInt(st.nextToken());
-                if(map[i][j]==2){
-                    chickenList.add(new int[]{i,j});
+                int input = Integer.parseInt(st.nextToken());
+                //치킨집 좌표 ArrayList에 저장
+                if(input==2){
+                    chickenStores.add(new int[]{i,j});
+                }
+                else if(input==1){
+                    home.add(new int[]{i,j});
                 }
             }
         }
 
-        visited = new boolean[chickenList.size()];
-        combi(0,0);
+        visited = new boolean[chickenStores.size()];
+        combi(0, 0);
+
 
         System.out.println(min);
 
