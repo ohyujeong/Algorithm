@@ -27,10 +27,8 @@ public class boj13460{
     static int[] dy = {1,-1,0,0};
     static int N,M;
     static char[][] board;
-    static int answer = 0;
     static Queue<goosle> q = new LinkedList<>();
     static boolean[][][][] visited;
-
 
     public static void main(String[] args) throws IOException{
 
@@ -124,11 +122,6 @@ public class boj13460{
                     return cnt + 1;
                 }
 
-                //두 구슬이 움직이지 않은 경우에는 큐에 안 넣음
-                if (cur.redX == rx && cur.redY == ry && cur.blueX == bx && cur.blueY == by) {
-                    continue;
-                }
-
                 //구슬이 겹치는 경우에는 원래 큐에서 꺼냈던 빨간구슬과 파란구슬 중에 어느게 뒷쪽인지 판단해서 위치를 조정
                 if (rx == bx && ry == by) {
                     //오 0, 왼1, 위 2, 아래 3
@@ -167,7 +160,11 @@ public class boj13460{
                             break;
                     }
                 }
-                q.offer(new goosle(rx, ry, bx, by, cnt + 1));
+
+                if(!visited[rx][ry][bx][by]){
+                    visited[rx][ry][bx][by]=true;
+                    q.offer(new goosle(rx, ry, bx, by, cnt + 1));
+                }
             }
         }
         return -1;
