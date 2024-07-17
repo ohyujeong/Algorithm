@@ -15,24 +15,24 @@ public class boj14499 {
     static Queue<Integer> con = new LinkedList<>();
     static Queue<int[]> q = new LinkedList<>();
 
-    static class Dice{
-        int east;
-        int west;
-        int north;
-        int south;
-        int front;
-        int back;
-        public Dice(int east, int west, int north, int south, int front, int back){
-            this.east =east;
-            this.west =west;
-            this.north = north;
-            this.south = south;
-            this.front = front;
-            this.back = back;
-        }
-    }
+    //동,서,북(윗면),남(바닥면),앞,뒤
+    static int[] dice = new int[6];
 
-    static Dice dice;
+    // 1. 동쪽 east->south, west->north, north->east, south->west, front, back
+    // 0은 2값으로 바뀌고, 1은 3값으로 바뀌고 2는 1값 3은 0값
+
+    // 2. 서쪽 east->north, west->south, north->west, south->east, front, back
+    // 3. 북쪽 east, west, north->back, south->front, front->north, back->south
+    // 4. 남쪽 east, west, north->front, south->back, front->south, back->north
+
+    // 각 방향에 따른 주사위 면의 인덱스 변화
+    static int[][] dirChanges = {
+            {2, 3, 1, 0, 4, 5}, // 동쪽
+            {3, 2, 0, 1, 4, 5}, // 서쪽
+            {0, 1, 4, 5, 3, 2}, // 북쪽
+            {0, 1, 5, 4, 2, 3}  // 남쪽
+    };
+
 
     public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -58,7 +58,6 @@ public class boj14499 {
             con.offer(Integer.parseInt(st.nextToken()));
         }
 
-        dice = new Dice(0,0,0,0,0,0);
         q.offer(new int[]{x,y});
         bfs();
 
@@ -67,10 +66,6 @@ public class boj14499 {
     static void bfs(){
 
         int[] cur = q.poll();
-
-
-        //동,서,북(윗면),남(바닥면),앞면,뒷면
-        int[] diceNums = new int[6];
 
         while(!con.isEmpty()){
             //굴리는 방향
@@ -89,63 +84,25 @@ public class boj14499 {
 
             //주사위가 이동한 칸의 숫자
             int mapNum = map[nx][ny];
+            int[] temp = dice.clone();
 
-            //굴렸으면 주사위 값 배열을 바꿔줌
-            // 1. 동쪽 east->south, west->north, north->east, south->west, front, back
-            // 2. 서쪽 east->north, west->south, north->west, south->east, front, back
-
-            //윗면이 앞면값이 되고,, 뒷면이 바닥면이 됨
-            // 3. 북쪽 east, west, north->back, south->front, front->north, back->south
-
-            // 4. 남쪽 east, west, north->front, south->back, front->south, back->north
-            switch (dir){
-                case 0 :
-                    diceNums[0]=dice.north;
-                    diceNums[1]=dice.south;
-                    diceNums[2]=dice.west;
-                    diceNums[3]=dice.east;
-                    break;
-                case 1:
-                    diceNums[0]=dice.south;
-                    diceNums[1]=dice.north;
-                    diceNums[2]=dice.east;
-                    diceNums[3]=dice.west;
-                    break;
-                case 2:
-                    //윗면, 바닥면, 앞면, 뒷면
-                    diceNums[2]=dice.front;
-                    diceNums[3]=dice.back;
-                    diceNums[4]=dice.south;
-                    diceNums[5]=dice.north;
-                    break;
-                case 3:
-                    diceNums[2]=dice.back;
-                    diceNums[3]=dice.front;
-                    diceNums[4]=dice.north;
-                    diceNums[5]=dice.south;
-                    break;
+            for(int i=0; i<6; i++){
+                int changeIdx = dirChanges[dir][i];
+                dice[i] = temp[changeIdx];
             }
-
-            dice.east = diceNums[0];
-            dice.west = diceNums[1];
-            dice.north = diceNums[2];
-            dice.south = diceNums[3];
-            dice.front = diceNums[4];
-            dice.back = diceNums[5];
 
             if(mapNum==0){
-                map[nx][ny]=dice.south;
+                map[nx][ny]=dice[3];
             }
             else{
-                dice.south = mapNum;
-                diceNums[3] = mapNum;
+                dice[3] = mapNum;
                 map[nx][ny]=0;
             }
 
             //주사위 새 좌표
             q.offer(new int[]{nx,ny});
             //윗 면 출력
-            System.out.println(dice.north);
+            System.out.println(dice[2]);
         }
 
     }
