@@ -31,12 +31,11 @@ public class boj19951 {
             sum[b+1] -= k;
         }
 
-
-        int tmp = 0;
         StringBuilder sb = new StringBuilder();
         for(int i=1; i<=n; i++){
-            tmp += sum[i];
-            sb.append(arr[i]+tmp).append(" ");
+            //누적합 배열
+            sum[i] += sum[i-1];
+            sb.append(sum[i]+arr[i]).append(" ");
         }
 
         System.out.println(sb);
